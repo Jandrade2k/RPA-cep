@@ -15,7 +15,7 @@ def main():
     for dado in dados_ceps:
         assunto = f"Dados do CEP {dado['CEP']}"
         corpo = f"Estado: {dado['Estado']}\nCidade: {dado['Cidade']}\nBairro: {dado['Bairro']}\nRua: {dado['Rua']}\nNúmero: {dado['Número']}"
-        enviar_email("destinatario@email.com", assunto, corpo, SMTP_SERVER, SMTP_PORT, SMTP_USER, SMTP_PASSWORD)
+        enviar_email("{}@email.com".format(dado['Estado']), assunto, corpo, SMTP_SERVER, SMTP_PORT, SMTP_USER, SMTP_PASSWORD)
     gerar_relatorio_pdf(dados_ceps, "relatorio_ceps.pdf")
 
 if __name__ == "__main__":
