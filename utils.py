@@ -58,7 +58,10 @@ def gerar_relatorio_pdf(dados, nome_arquivo):
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, txt="Relatório de CEPs", ln=True, align='C')
     for dado in dados:
-        pdf.cell(200, 10, txt=f"CEP: {dado['CEP']}, Estado: {dado['Estado']}, Cidade: {dado['Cidade']}, Bairro: {dado['Bairro']}, Rua: {dado['Rua']}, Número: {dado['Número']}", ln=True)
+        if len(dado) > 2:
+            pdf.cell(200, 10, txt=f"CEP: {dado['CEP']}, Estado: {dado['Estado']}, Cidade: {dado['Cidade']}, Bairro: {dado['Bairro']}, Rua: {dado['Rua']}, Número: {dado['Número']}", ln=True)
+        else:
+            pdf.cell(200, 10, txt="CEP não encontrado", ln=True)
     pdf.output(nome_arquivo)
     print(f"Relatório PDF gerado: {nome_arquivo}")
 
