@@ -4,10 +4,10 @@
 import smtplib
 from email.mime.text import MIMEText
 import requests
-from bs4 import BeautifulSoup
 import pandas as pd
 from fpdf import FPDF
 import os
+import json
 
 def ler_ceps_csv(nome_arquivo):
     """Lê um arquivo CSV com a lista de CEPs e retorna uma lista."""
@@ -18,25 +18,22 @@ def ler_ceps_csv(nome_arquivo):
         print(f"Erro: Arquivo '{nome_arquivo}' não encontrado.")
         return []
 
-def consultar_cep(cep, url_base):
-    """Consulta um CEP no site e retorna os dados."""
+def consultar_cep_2(cep, url_base):
     try:
-        url = url_base + cep
+        url = url_base.format(cep)
         response = requests.get(url)
-        response.raise_for_status()  # Lança exceção para erros HTTP
-        soup = BeautifulSoup(response.content, "html.parser")
-        # Adapte o código abaixo para extrair os dados do HTML do site
-        estado = soup.find("span", {"id": "estado"}).text
-        cidade = soup.find("span", {"id": "cidade"}).text
-        bairro = soup.find("span", {"id": "bairro"}).text
-        rua = soup.find("span", {"id": "logradouro"}).text
-        numero = ""  # Adapte se o número estiver disponível
-        return {"CEP": cep, "Estado": estado, "Cidade": cidade, "Bairro": bairro, "Rua": rua, "Número": numero}
+        dados = json.loads(response.text)
+        if dados.get("numero") == "":
+            dados["numero"] = "Não informado"
+        return {"CEP": cep, 
+                "Estado": dados.get("estado", ""), 
+                "Cidade": dados.get("cidade" , ""), 
+                "Bairro": dados.get("bairro", ""), 
+                "Rua": dados.get("logradouro", ""), 
+                "Número": dados.get("numero", "")}
+    
     except requests.exceptions.RequestException as e:
         print(f"Erro ao consultar CEP {cep}: {e}")
-        return None
-    except AttributeError:
-        print(f"Erro ao extrair dados do CEP {cep}: Estrutura do site alterada.")
         return None
 
 def enviar_email(destinatario, assunto, corpo, servidor, porta, usuario, senha):

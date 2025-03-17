@@ -3,6 +3,7 @@
 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-SMTP_USER = "seu_email@gmail.com"
-SMTP_PASSWORD = "sua_senha"
-CEP_CONSULTA_URL = "https://buscacep.com.br/?cep=" # Adapte a URL se necessário
+SMTP_USER = "dev.jandrade@gmail.com"
+SMTP_PASSWORD = "Senha123"
+CEP_CONSULTA_URL = "https://buscacep.com.br/?cep=" # URL base do Busca CEP (fora do ar)
+CEP_CONSULTA_URL_2 = "http://www.viacep.com.br/ws/{}/json"
