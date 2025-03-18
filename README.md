@@ -25,7 +25,10 @@ Este projeto automatiza a consulta de CEPs em um site público, o envio de email
 * Adicionar suporte para outros sites de consulta de CEP.
 * Melhorar o layout do relatório PDF.
 
-## Limitações
+## Disclaimer
 
-* O site de consulta de CEP pode alterar sua estrutura, exigindo ajustes no código.
-* O envio de emails pode ser limitado pelo serviço SMTP utilizado.
+* O site https://buscacep.com.br/ estava fora do ar e por isso, optei por usar o https://viacep.com.br/
+* O relatorio poderia conter mais informações sobre a busca dos ceps como:
+1. Número de Cepss sem informação.
+2. Lista com Ceps para busca em outro site de consulta de ceps.
+3. Lista de e-mails enviados com sucesso e e-mails retornados.
