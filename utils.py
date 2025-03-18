@@ -26,7 +26,7 @@ def consultar_cep_2(cep, url_base):
         if dados.get("numero") == "":
             dados["numero"] = "Não informado"
         return {"CEP": cep, 
-                "Estado": dados.get("estado", ""), 
+                "Estado": dados.get("uf", ""), 
                 "Cidade": dados.get("cidade" , ""), 
                 "Bairro": dados.get("bairro", ""), 
                 "Rua": dados.get("logradouro", ""), 
@@ -58,10 +58,13 @@ def gerar_relatorio_pdf(dados, nome_arquivo):
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, txt="Relatório de CEPs", ln=True, align='C')
     for dado in dados:
-        if len(dado) > 2:
-            pdf.cell(200, 10, txt=f"CEP: {dado['CEP']}, Estado: {dado['Estado']}, Cidade: {dado['Cidade']}, Bairro: {dado['Bairro']}, Rua: {dado['Rua']}, Número: {dado['Número']}", ln=True)
+        if dado['Estado'] == '':
+            pdf.cell(200, 10, txt=f"CEP: {dado['CEP']}, CEP não encontrado", ln=True)
         else:
-            pdf.cell(200, 10, txt="CEP não encontrado", ln=True)
+            if dado['Número'] == '':
+                pdf.cell(200, 10, txt=f"CEP: {dado['CEP']}, Estado: {dado['Estado']}, Cidade: {dado['Cidade']}, Bairro: {dado['Bairro']}, Rua: {dado['Rua']}, Número: {'Nenhum número informado.'}", ln=True)
+            else:
+                pdf.cell(200, 10, txt=f"CEP: {dado['CEP']}, Estado: {dado['Estado']}, Cidade: {dado['Cidade']}, Bairro: {dado['Bairro']}, Rua: {dado['Rua']}, Número: {dado['Número']}", ln=True)
     pdf.output(nome_arquivo)
     print(f"Relatório PDF gerado: {nome_arquivo}")
 
